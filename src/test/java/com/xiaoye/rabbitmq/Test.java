@@ -125,6 +125,39 @@ public class Test {
        *     3.routingKey:用来绑定队列和交换器的路由键;
        *     4.argument:定义绑定的一些参数。
        * **/
+
+      /***
+       *         生产者发送确认
+       *         注意：事务机制和publisher∞nfirm机制两者是互斥的，不能共存
+       *
+       * **/
+      @org.junit.jupiter.api.Test
+      public void test4() throws IOException{
+          ConnectionFactory connectionFactory = new ConnectionFactory();
+          connectionFactory.setHost(IP_ADDRESS);//设置主机地址
+          connectionFactory.setPort(port);//设置端口
+          connectionFactory.setUsername("guest");//用户名
+          connectionFactory.setPassword("guest");//密码
+          Connection connection = null;
+          try {
+              connection = connectionFactory.newConnection();
+          } catch (TimeoutException e) {
+              e.printStackTrace();
+          }
+          Channel channel = connection.createChannel();//创建信道
+        //  AMQP.Exchange.DeclareOk direct = channel.exchangeDeclare(exchangeName, "direct", true, false, null);
+          channel.confirmSelect();  //开启发送者发送确认
+          String message="hello,world";
+          channel.basicPublish(exchangeName,rountkey, MessageProperties.PERSISTENT_TEXT_PLAIN
+                  ,message.getBytes());
+          try {
+              if(!channel.waitForConfirms()){  //判断是否发送确认
+                   System.out.println("发送消息失败");
+              }
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+      }
 }
 
 
