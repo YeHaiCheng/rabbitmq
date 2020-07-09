@@ -128,7 +128,7 @@ public class Test {
 
       /***
        *         生产者发送确认
-       *         注意：事务机制和publisher∞nfirm机制两者是互斥的，不能共存
+       *         注意：事务机制和publisherconfirm机制两者是互斥的，不能共存
        *
        * **/
       @org.junit.jupiter.api.Test
@@ -158,6 +158,7 @@ public class Test {
               e.printStackTrace();
           }
       }
+      /** **/
 }
 
 

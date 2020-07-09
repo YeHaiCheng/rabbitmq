@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySources;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,12 @@ class RabbitmqApplicationTests {
          map.put("msg","abcdef");
 		 rabbitTemplate.convertAndSend("xiao.curExchanges","xiaoye","kkk123");
 		 rabbitTemplate.convertAndSend("xiao.curExchanges","xiaoye",map);
+	}
+	@Test
+	void getMessage(){
+		String uuid = rabbitTemplate.getUUID();
+		System.out.println(uuid);
+
 	}
 
 
